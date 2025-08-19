@@ -69,6 +69,11 @@ class Pgnyt_Articles_Widget extends WP_Widget
     public function __construct()
     {
         // actual widget processes
+        parent::__construct(
+            'pgnyt_articles_widget', // Base ID
+            'NY Times Articles Widget', // Name
+            array('description' => 'Displays NY Times articles') // Args
+        );
     }
 
     public function widget($args, $instance)
@@ -78,7 +83,11 @@ class Pgnyt_Articles_Widget extends WP_Widget
         $title = apply_filters('widget_title', $instance['title']);
         $num_articles = $instance['num_articles'];
         $display_image = $instance['display_image'];
+
         $options = get_option('pgnyt_articles');
+        $pgnyt_results = $options['pgnyt_results'];
+
+        require('inc/front-end.php');
     }
 
     public function update($new_instance, $old_instance)
@@ -131,5 +140,12 @@ function pgnyt_articles_backend_styles()
 }
 
 add_action('admin_head', "pgnyt_articles_backend_styles");
+
+function pgnyt_articles_frontend_styles()
+{
+    wp_enqueue_style("pgnyt_articles_frontend_css", plugins_url('pgnyt_articles/pgnyt-articles.css'));
+}
+
+add_action('wp_enqueue_scripts', "pgnyt_articles_frontend_styles");
 
 ?>
