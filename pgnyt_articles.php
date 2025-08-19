@@ -129,7 +129,8 @@ function pgnyt_articles_shortcode($atts, $content = null)
 
     extract(shortcode_atts(array(
         'num_articles' => 5,
-        'display_image' => 'on'
+        'display_image' => 'on',
+        'title' => 'NYT Articles'
     ), $atts));
 
     if ($display_image == 'on')
@@ -139,6 +140,15 @@ function pgnyt_articles_shortcode($atts, $content = null)
 
     $options = get_option('pgnyt_articles');
     $pgnyt_results = $options['pgnyt_results'];
+
+    // Set the variables that front-end.php expects
+    $before_widget = '<div class="pgnyt-widget">';
+    $after_widget = '</div>';
+    $before_title = '<h3 class="pgnyt-title">';
+    $after_title = '</h3>';
+    
+    // Use the title from shortcode attributes or default
+    $title = !empty($atts['title']) ? $atts['title'] : 'NYT Articles';
 
     ob_start();
 
