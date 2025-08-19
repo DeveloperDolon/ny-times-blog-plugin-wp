@@ -75,36 +75,43 @@ class Pgnyt_Articles_Widget extends WP_Widget
     {
         // outputs the content of the widget
         extract($args);
-        $title = apply_filters( 'widget_title', $instance['title'] );
+        $title = apply_filters('widget_title', $instance['title']);
         $num_articles = $instance['num_articles'];
         $display_image = $instance['display_image'];
         $options = get_option('pgnyt_articles');
     }
 
-    public function form($instance) 
-    {
-        // outputs the options form in the admin
-        $title = esc_attr($instance['title']);
-    	$display_image = esc_attr($instance['display_image']);
-    	$num_articles = esc_attr($instance['num_articles']);
-
-    	$options = get_option('pgnyt_articles');
-    	$pgnyt_results = $options['pgnyt_results'];
-
-    	require ('inc/widget-fields.php');
-
-    }
-
     public function update($new_instance, $old_instance)
     {
         // processes widget options to be saved
+        $instance = $old_instance;
+        $instance['title'] = strip_tags($new_instance['title']);
+        $instance['display_image'] = strip_tags($new_instance['display_image']);
+        $instance['num_articles'] = strip_tags($new_instance['num_articles']);
+
+        return $instance;
+    }
+
+    public function form($instance)
+    {
+        // outputs the options form in the admin
+        $title = esc_attr($instance['title']);
+        $display_image = esc_attr($instance['display_image']);
+        $num_articles = esc_attr($instance['num_articles']);
+
+        $options = get_option('pgnyt_articles');
+        $pgnyt_results = $options['pgnyt_results'];
+
+        require('inc/widget-fields.php');
+
     }
 }
 
-add_action( "widgets_init", "wpdocs_register_widgets" );
+add_action("widgets_init", "wpdocs_register_widgets");
 
-function wpdocs_register_widgets() {
-    register_widget( 'WPDocs_New_Widget' );
+function wpdocs_register_widgets()
+{
+    register_widget('Pgnyt_Articles_Widget');
 }
 
 function pgnyt_articles_get_results($pgnyt_search, $pgnyt_apikey)
