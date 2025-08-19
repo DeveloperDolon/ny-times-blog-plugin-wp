@@ -3,14 +3,14 @@ echo $before_widget;
 echo $before_title . $title . $after_title;
 ?>
 
-<ul class="pgnyt-articles">
+<ul class="pgnyt-articles frontend">
     <?php
     $articles_to_show = min(10, count($pgnyt_results->response->docs));
     for ($i = 0; $i < $articles_to_show; $i++):
         $article = $pgnyt_results->response->docs[$i];
         ?>
-        <li>
-            <ul>
+        <li class="pgnyt-articles">
+            <ul class="pgnyt-articles-info">
                 <?php
                 // Check if multimedia exists
                 if (isset($article->multimedia)):
